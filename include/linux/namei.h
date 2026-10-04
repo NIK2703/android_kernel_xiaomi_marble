@@ -70,9 +70,10 @@ extern struct dentry *kern_path_locked(const char *, struct path *);
 
 extern struct dentry *try_lookup_one_len(const char *, struct dentry *, int);
 extern struct dentry *lookup_one_len(const char *, struct dentry *, int);
-extern struct dentry *lookup_one_len2(const char *, struct vfsmount *mnt, struct dentry *, int);
 extern struct dentry *lookup_one_len_unlocked(const char *, struct dentry *, int);
 extern struct dentry *lookup_positive_unlocked(const char *, struct dentry *, int);
+
+/* Not declared publicly upstream; fs/sdcardfs/lookup.c needs it. */
 extern int vfs_path_lookup(struct dentry *, struct vfsmount *, const char *,
 			   unsigned int, struct path *);
 

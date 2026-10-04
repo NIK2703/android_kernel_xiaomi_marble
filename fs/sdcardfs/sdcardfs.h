@@ -410,8 +410,7 @@ static inline void set_top(struct sdcardfs_inode_info *info,
 	spin_unlock(&info->top_lock);
 }
 
-static inline int get_gid(struct vfsmount *mnt,
-		struct super_block *sb,
+static inline int get_gid(struct super_block *sb,
 		struct sdcardfs_inode_data *data)
 {
 	struct sdcardfs_vfsmount_options *vfsopts = &SDCARDFS_SB(sb)->vfsopts;
@@ -429,8 +428,7 @@ static inline int get_gid(struct vfsmount *mnt,
 		return multiuser_get_uid(data->userid, vfsopts->gid);
 }
 
-static inline int get_mode(struct vfsmount *mnt,
-		struct sdcardfs_inode_info *info,
+static inline int get_mode(struct sdcardfs_inode_info *info,
 		struct sdcardfs_inode_data *data)
 {
 	int owner_mode;
@@ -564,7 +562,7 @@ static inline int prepare_dir(const char *path_s, uid_t uid, gid_t gid, mode_t m
 		goto out_unlock;
 	}
 
-	err = vfs_mkdir2(parent.mnt, d_inode(parent.dentry), dent, mode);
+	err = vfs_mkdir(d_inode(parent.dentry), dent, mode);
 	if (err) {
 		if (err == -EEXIST)
 			err = 0;
@@ -575,7 +573,7 @@ static inline int prepare_dir(const char *path_s, uid_t uid, gid_t gid, mode_t m
 	attrs.ia_gid = make_kgid(&init_user_ns, gid);
 	attrs.ia_valid = ATTR_UID | ATTR_GID;
 	inode_lock(d_inode(dent));
-	notify_change2(parent.mnt, dent, &attrs, NULL);
+	notify_change(dent, &attrs, NULL);
 	inode_unlock(d_inode(dent));
 
 out_dput:
