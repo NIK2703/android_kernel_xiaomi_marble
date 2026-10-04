@@ -349,6 +349,8 @@ source "fs/nls/Kconfig"
 source "fs/dlm/Kconfig"
 source "fs/unicode/Kconfig"
 
+source "fs/sdcardfs/Kconfig"
+
 config IO_WQ
 	bool
 
